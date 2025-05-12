@@ -1,16 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import userSchema from '../schemas/userSchema';
 
 const User = mongoose.model('User', userSchema);
 
-interface JwtPayload {
-  email: string;
-  [key: string]: any;
+interface CustomRequest extends Request {
+  user?: JwtPayload;
 }
 
-export const verifyToken = (req: Request, res: Response, next: NextFunction): void => {
+export const verifyToken = (req: CustomRequest, res: Response, next: NextFunction): void => {
   const token = req.cookies.token;
   if (!token) {
     res.status(401).send({ error: 'Unauthorized access' });
@@ -29,7 +28,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction): vo
   });
 };
 
-export const verifyAdmin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const verifyAdmin = async (req: CustomRequest, res: Response, next: NextFunction): Promise<void> => {
   const email = req?.user?.email;
   if (!email) {
     res.status(401).send({ error: 'Unauthorized access' });
