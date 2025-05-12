@@ -1,19 +1,10 @@
-// const mongoose = require('mongoose');
-// import mongoose from 'mongoose';
-// const express = require('express');
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Request, Response } from 'express';
-// const cors = require('cors');
-import cookieParser from 'cookie-parser';
-// const cookieParser = require('cookie-parser');
-// const morgan = require('morgan');
-import morgan from 'morgan';
-// const jwt = require('jsonwebtoken');
 import jwt from 'jsonwebtoken';
-import userHandler from './router/userHandler';
-// const userHandler = require('./router/userHandler');
+import morgan from 'morgan';
 import dbConnect from './lib/dbConnect';
-// const dbConnect = require('./lib/dbConnect');
+import userHandler from './router/userHandler';
 
 // Express app initialization
 const app = express();

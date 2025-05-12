@@ -1,10 +1,8 @@
 import express, { Request, Response, Router } from 'express';
-import mongoose, { Document } from 'mongoose';
 import { verifyToken } from '../middleware/middleware';
-import userSchema from '../schemas/userSchema';
+import UserModel, { IUser } from '../schemas/userSchema';
 
 const router: Router = express.Router();
-const User = mongoose.model('User', userSchema);
 
 interface IUserResponse {
   message?: string;
@@ -13,16 +11,12 @@ interface IUserResponse {
   role?: string;
 }
 
-interface IUserDocument extends Document {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  photo: string;
-}
+type IUserRequest = Omit<IUser, 'role'> & {
+  role?: 'user' | 'admin';
+};
 
 // get a user role
-router.get('/role/:email', async (req: Request, res: Response<IUserResponse>) => {
+router.get('/role/:email', async (req: Request<{ email: string }>, res: Response<IUserResponse>) => {
   try {
     const { email } = req.params;
 
@@ -31,8 +25,9 @@ router.get('/role/:email', async (req: Request, res: Response<IUserResponse>) =>
       role: 1,
     };
 
-    const result = await User.findOne({ email }, projection).lean();
-    res.send(result || { error: 'User not found' });
+    const result = await UserModel.findOne({ email }, projection).lean();
+    const response: IUserResponse = result || { error: 'User not found' };
+    res.send(response);
   } catch (err: unknown) {
     const error = err as Error;
     res.status(500).send({
@@ -43,10 +38,10 @@ router.get('/role/:email', async (req: Request, res: Response<IUserResponse>) =>
 });
 
 // post a user
-router.post('/post', async (req: Request, res: Response<IUserResponse>): Promise<void> => {
+router.post('/post', async (req: Request<{}, {}, IUserRequest>, res: Response<IUserResponse>): Promise<void> => {
   try {
     // Check if email already exists
-    const existingUser = await User.findOne({ email: req.body.email });
+    const existingUser = await UserModel.findOne({ email: req.body.email });
     if (existingUser) {
       res.status(400).send({
         error: 'Email already exists',
@@ -55,7 +50,7 @@ router.post('/post', async (req: Request, res: Response<IUserResponse>): Promise
     }
 
     // If not, create the new user
-    const newUser = new User(req.body);
+    const newUser = new UserModel(req.body);
     await newUser.save();
 
     res.status(200).send({
@@ -71,7 +66,7 @@ router.post('/post', async (req: Request, res: Response<IUserResponse>): Promise
 });
 
 // update a user
-router.patch('/update/:email', verifyToken, async (req: Request, res: Response<IUserResponse>): Promise<void> => {
+router.patch('/update/:email', verifyToken, async (req: Request<{ email: string }, {}, Partial<IUserRequest>>, res: Response<IUserResponse>): Promise<void> => {
   try {
     const email = req.params.email;
     const updatedUser = req.body;
@@ -83,7 +78,7 @@ router.patch('/update/:email', verifyToken, async (req: Request, res: Response<I
       },
     };
 
-    await User.updateOne({ email }, updateDoc);
+    await UserModel.updateOne({ email }, updateDoc);
 
     res.status(200).send({
       message: 'User update successfully!',

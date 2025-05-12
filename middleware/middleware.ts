@@ -1,9 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import mongoose from 'mongoose';
-import userSchema from '../schemas/userSchema';
-
-const User = mongoose.model('User', userSchema);
+import UserModel from '../schemas/userSchema';
 
 interface CustomRequest extends Request {
   user?: JwtPayload;
@@ -36,7 +33,7 @@ export const verifyAdmin = async (req: CustomRequest, res: Response, next: NextF
   }
 
   try {
-    const user = await User.findOne({ email });
+    const user = await UserModel.findOne({ email });
     const isAdmin = user?.role === 'admin';
 
     if (!user || !isAdmin) {
