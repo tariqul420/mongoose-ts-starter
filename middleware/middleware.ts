@@ -10,16 +10,18 @@ interface JwtPayload {
   [key: string]: any;
 }
 
-export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyToken = (req: Request, res: Response, next: NextFunction): void => {
   const token = req.cookies.token;
   if (!token) {
-    return res.status(401).send({ error: 'Unauthorized access' });
+    res.status(401).send({ error: 'Unauthorized access' });
+    return;
   }
 
   // Verify Token
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET || '', (error: any, decoded: any) => {
     if (error) {
-      return res.status(401).send({ error: 'Unauthorized access' });
+      res.status(401).send({ error: 'Unauthorized access' });
+      return;
     }
 
     req.user = decoded as JwtPayload;
@@ -27,10 +29,11 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
   });
 };
 
-export const verifyAdmin = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyAdmin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const email = req?.user?.email;
   if (!email) {
-    return res.status(401).send({ error: 'Unauthorized access' });
+    res.status(401).send({ error: 'Unauthorized access' });
+    return;
   }
 
   try {
@@ -38,12 +41,13 @@ export const verifyAdmin = async (req: Request, res: Response, next: NextFunctio
     const isAdmin = user?.role === 'admin';
 
     if (!user || !isAdmin) {
-      return res.status(403).send({ message: 'Forbidden access. Only admins have access!' });
+      res.status(403).send({ message: 'Forbidden access. Only admins have access!' });
+      return;
     }
 
     next();
   } catch (err: unknown) {
     const error = err as Error;
-    return res.status(500).send({ error: 'Server error', details: error.message });
+    res.status(500).send({ error: 'Server error', details: error.message });
   }
 };
