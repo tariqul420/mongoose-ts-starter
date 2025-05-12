@@ -1,13 +1,13 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const userSchema = require('../schemas/userSchema');
-const router = express.Router();
-const { verifyToken } = require('../middleware/middleware');
+import express, { Request, Response, Router } from 'express';
+import mongoose from 'mongoose';
+import { verifyToken } from '../middleware/middleware';
+import userSchema from '../schemas/userSchema';
 
-const User = new mongoose.model('User', userSchema);
+const router: Router = express.Router();
+const User = mongoose.model('User', userSchema);
 
 // get a user role
-router.get('/role/:email', async (req, res) => {
+router.get('/role/:email', async (req: Request, res: Response) => {
   try {
     const { email } = req.params;
 
@@ -17,18 +17,18 @@ router.get('/role/:email', async (req, res) => {
     };
 
     const result = await User.findOne({ email }, projection);
-
     res.send(result);
-  } catch (err) {
+  } catch (err: unknown) {
+    const error = err as Error;
     res.status(500).send({
       error: 'There was a server-side error',
-      details: err.message,
+      details: error.message,
     });
   }
 });
 
 // post a user
-router.post('/post', async (req, res) => {
+router.post('/post', async (req: Request, res: Response) => {
   try {
     // Check if email already exists
     const existingUser = await User.findOne({ email: req.body.email });
@@ -45,16 +45,17 @@ router.post('/post', async (req, res) => {
     res.status(200).send({
       message: 'User inserted successfully!',
     });
-  } catch (err) {
+  } catch (err: unknown) {
+    const error = err as Error;
     res.status(500).send({
       error: 'There was a server-side error',
-      details: err.message,
+      details: error.message,
     });
   }
 });
 
 // update a user
-router.patch('update/:email', verifyToken, async (req, res) => {
+router.patch('/update/:email', verifyToken, async (req: Request, res: Response) => {
   try {
     const email = req.params.email;
     const updatedUser = req.body;
@@ -71,12 +72,13 @@ router.patch('update/:email', verifyToken, async (req, res) => {
     res.status(200).send({
       message: 'User update successfully!',
     });
-  } catch (err) {
+  } catch (err: unknown) {
+    const error = err as Error;
     res.status(500).send({
       error: 'There was a server-side error',
-      details: err.message,
+      details: error.message,
     });
   }
 });
 
-module.exports = router;
+export default router;

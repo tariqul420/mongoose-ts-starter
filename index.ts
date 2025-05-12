@@ -1,11 +1,19 @@
-const mongoose = require('mongoose');
-const express = require('express');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const morgan = require('morgan');
-const jwt = require('jsonwebtoken');
-const userHandler = require('./router/userHandler');
-const dbConnect = require('./lib/dbConnect');
+// const mongoose = require('mongoose');
+// import mongoose from 'mongoose';
+// const express = require('express');
+import cors from 'cors';
+import express, { Request, Response } from 'express';
+// const cors = require('cors');
+import cookieParser from 'cookie-parser';
+// const cookieParser = require('cookie-parser');
+// const morgan = require('morgan');
+import morgan from 'morgan';
+// const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
+import userHandler from './router/userHandler';
+// const userHandler = require('./router/userHandler');
+import dbConnect from './lib/dbConnect';
+// const dbConnect = require('./lib/dbConnect');
 
 // Express app initialization
 const app = express();
@@ -39,10 +47,10 @@ async function startServer() {
 startServer();
 
 // Create a JWT token
-app.post('/jwt', async (req, res) => {
+app.post('/jwt', async (req: Request, res: Response) => {
   try {
     const userInfo = req.body;
-    const token = jwt.sign(userInfo, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' });
+    const token = jwt.sign(userInfo, process.env.ACCESS_TOKEN_SECRET || '', { expiresIn: '1d' });
     res
       .cookie('token', token, {
         httpOnly: true,
@@ -50,16 +58,17 @@ app.post('/jwt', async (req, res) => {
         sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
       })
       .send({ success: true });
-  } catch (err) {
+  } catch (err: unknown) {
+    const error = err as Error;
     res.status(500).send({
       error: 'There was a server-side error',
-      details: err.message,
+      details: error.message,
     });
   }
 });
 
 // Logout route
-app.get('/logout', async (req, res) => {
+app.get('/logout', async (_req: Request, res: Response) => {
   try {
     res
       .clearCookie('token', {
@@ -69,10 +78,11 @@ app.get('/logout', async (req, res) => {
         path: '/',
       })
       .send({ success: true });
-  } catch (err) {
+  } catch (err: unknown) {
+    const error = err as Error;
     res.status(500).send({
       error: 'There was a server-side error',
-      details: err.message,
+      details: error.message,
     });
   }
 });
@@ -81,6 +91,6 @@ app.get('/logout', async (req, res) => {
 app.use('/user', userHandler);
 
 // Default route
-app.get('/', (req, res) => {
+app.get('/', (_req: Request, res: Response) => {
   res.send('This Server For MyAwesomeApp Website ❤️');
 });
