@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { RequestHandler, Router } from 'express';
 import {
   createUser,
   getUserRole,
@@ -7,8 +7,9 @@ import {
 
 const router = Router();
 
-router.post('/create-user', createUser);
-router.get('/user/:email', getUserRole);
-router.put('/update-user/:email', updateUser);
+// User routes
+router.post('/create-user', createUser as RequestHandler);
+router.get('/user/:email', getUserRole as RequestHandler);
+router.put('/update-user/:email', updateUser as RequestHandler);
 
 export default router;
