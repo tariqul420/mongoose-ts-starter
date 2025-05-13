@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import config from '../config/config';
 
 // Define type for mongoose cache
 type MongooseCache = {
@@ -11,17 +12,25 @@ const mongooseGlobal = global as unknown as {
   mongoose?: MongooseCache;
 };
 
-const cached: MongooseCache = mongooseGlobal.mongoose || { conn: null, promise: null };
+const cached: MongooseCache = mongooseGlobal.mongoose || {
+  conn: null,
+  promise: null,
+};
 
 if (!mongooseGlobal.mongoose) {
   mongooseGlobal.mongoose = cached;
 }
 
 async function dbConnect() {
-  const MONGODB_URI = process.env.MONGODB_DATABASE_URL?.replace('<db_password>', process.env.MONGODB_DATABASE_PASSWORD || '');
+  const MONGODB_URI = config.mongodb.uri.replace(
+    '<db_password>',
+    config.mongodb.password,
+  );
 
   if (!MONGODB_URI) {
-    throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
+    throw new Error(
+      'Please define the MONGODB_URI environment variable inside .env.local',
+    );
   }
 
   if (cached.conn) {

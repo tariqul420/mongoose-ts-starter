@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import config from '../config/config';
 
 export const createToken = async (
   req: Request,
@@ -7,7 +8,7 @@ export const createToken = async (
   next: NextFunction,
 ) => {
   const userInfo = req.body;
-  const token = jwt.sign(userInfo, process.env.ACCESS_TOKEN_SECRET || '', {
+  const token = jwt.sign(userInfo, config.cookie.accessTokenSecret, {
     expiresIn: '1d',
   });
   res
