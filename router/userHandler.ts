@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from 'express';
 import { verifyToken } from '../middleware/middleware';
-import UserModel, { IUser } from '../schemas/userSchema';
+import UserModel, { IUser } from '../src/models/userSchema';
 
 const router: Router = express.Router();
 
