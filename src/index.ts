@@ -3,8 +3,8 @@ import cors from 'cors';
 import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import morgan from 'morgan';
-import dbConnect from './lib/dbConnect';
-import userHandler from './router/userHandler';
+import dbConnect from '../lib/dbConnect';
+import userHandler from '../router/userHandler';
 
 // Express app initialization
 const app = express();
