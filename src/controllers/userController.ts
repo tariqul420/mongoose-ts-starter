@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import User from '../models/userSchema';
-// import { IUserRequest } from '../types/userTypes';
 
 export const getUserRole = async (
   req: Request,

@@ -1,12 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import UserModel from '../src/models/userSchema';
+import User from '../models/userSchema';
 
 interface CustomRequest extends Request {
   user?: JwtPayload;
 }
 
-export const verifyToken = (req: CustomRequest, res: Response, next: NextFunction): void => {
+export const verifyToken = (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction,
+): void => {
   const token = req.cookies.token;
   if (!token) {
     res.status(401).send({ error: 'Unauthorized access' });
@@ -14,18 +18,26 @@ export const verifyToken = (req: CustomRequest, res: Response, next: NextFunctio
   }
 
   // Verify Token
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET || '', (error: any, decoded: any) => {
-    if (error) {
-      res.status(401).send({ error: 'Unauthorized access' });
-      return;
-    }
+  jwt.verify(
+    token,
+    process.env.ACCESS_TOKEN_SECRET || '',
+    (error: any, decoded: any) => {
+      if (error) {
+        res.status(401).send({ error: 'Unauthorized access' });
+        return;
+      }
 
-    req.user = decoded as JwtPayload;
-    next();
-  });
+      req.user = decoded as JwtPayload;
+      next();
+    },
+  );
 };
 
-export const verifyAdmin = async (req: CustomRequest, res: Response, next: NextFunction): Promise<void> => {
+export const verifyAdmin = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   const email = req?.user?.email;
   if (!email) {
     res.status(401).send({ error: 'Unauthorized access' });
@@ -33,11 +45,13 @@ export const verifyAdmin = async (req: CustomRequest, res: Response, next: NextF
   }
 
   try {
-    const user = await UserModel.findOne({ email });
+    const user = await User.findOne({ email });
     const isAdmin = user?.role === 'admin';
 
     if (!user || !isAdmin) {
-      res.status(403).send({ message: 'Forbidden access. Only admins have access!' });
+      res
+        .status(403)
+        .send({ message: 'Forbidden access. Only admins have access!' });
       return;
     }
 
