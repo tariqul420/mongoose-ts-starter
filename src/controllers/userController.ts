@@ -2,7 +2,11 @@ import { NextFunction, Request, Response } from 'express';
 import User from '../models/userSchema';
 // import { IUserRequest } from '../types/userTypes';
 
-export const getUserRole = async (req: Request, res: Response, next: NextFunction) => {
+export const getUserRole = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { email } = req.params;
 
@@ -19,7 +23,11 @@ export const getUserRole = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
-export const createUser = async (req: Request, res: Response, next: NextFunction) => {
+export const createUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
@@ -40,7 +48,11 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+export const updateUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const email = req.params.email;
     const updatedUser = req.body;
