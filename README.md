@@ -3,8 +3,8 @@
 A robust Node.js API template built with Express, Mongoose, and TypeScript, featuring authentication, error handling, and best practices. Use this template to quickly bootstrap your backend projects.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub stars](https://img.shields.io/github/stars/tariqul420/mongoose-quick-start-ts?style=social)](https://github.com/tariqul420/mongoose-quick-start-ts/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/tariqul420/mongoose-quick-start-ts?style=social)](https://github.com/tariqul420/mongoose-quick-start-ts/network/members)
+[![GitHub stars](https://img.shields.io/github/stars/tariqul420/mongoose-ts-starter?style=social)](https://github.com/tariqul420/mongoose-ts-starter/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/tariqul420/mongoose-ts-starter?style=social)](https://github.com/tariqul420/mongoose-ts-starter/network/members)
 
 ## Features
 
@@ -15,6 +15,8 @@ A robust Node.js API template built with Express, Mongoose, and TypeScript, feat
 - **Error Handling** - Centralized error handling middleware
 - **Environment Variables** - Easy configuration through environment variables
 - **Code Quality** - ESLint and Prettier for code quality and formatting
+- **MongoDB Integration** - Mongoose schemas, models, and connection management
+- **Deployment Ready** - Configuration for easy deployment on Vercel
 
 ## Prerequisites
 
@@ -31,7 +33,7 @@ This repository is set up as a template. To create your project:
 1. Click the "Use this template" button at the top of the repository page
 2. Or clone the repository and remove the .git folder:
    ```bash
-   git clone https://github.com/tariqul420/mongoose-quick-start-ts.git my-project
+   git clone https://github.com/tariqul420/mongoose-ts-starter.git my-project
    cd my-project
    rm -rf .git
    git init
@@ -42,8 +44,8 @@ This repository is set up as a template. To create your project:
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/tariqul420/mongoose-quick-start-ts.git
-   cd mongoose-quick-start-ts
+   git clone https://github.com/tariqul420/mongoose-ts-starter.git
+   cd mongoose-ts-starter
    ```
 
 2. **Install dependencies**
@@ -64,10 +66,9 @@ This repository is set up as a template. To create your project:
    ```
 
 4. **Run the development server**
-
-```bash
-npm run dev
-```
+   ```bash
+   npm run dev
+   ```
 
 ## Available Scripts
 
@@ -91,6 +92,20 @@ src/
 ├── types/          # TypeScript type definitions
 └── server.ts       # Application entry point
 ```
+
+## API Endpoints
+
+### Authentication
+
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Login user
+- `POST /api/auth/logout` - Logout user
+
+### User Management
+
+- `GET /api/users/me` - Get current user profile
+- `PATCH /api/users/me` - Update user profile
+- `DELETE /api/users/me` - Delete user account
 
 ## Error Handling
 
@@ -122,6 +137,18 @@ To deploy to Vercel:
 2. Run `vercel` in the project root
 3. Follow the prompts to deploy
 
+## Related Resources
+
+### Mongoose Templates & Starters
+
+- [mongoose-js-starter](https://github.com/tariqul420/mongoose-js-starter) - JavaScript version of this template (Mongoose + Javascript + Express.js)
+- [mongoose-ts-starter](https://github.com/tariqul420/mongoose-ts-starter) - Typescript version of this template (Mongoose + Typescript + Express.js)
+
+### Node.js Templates & Starters
+
+- [node-js-starter](https://github.com/tariqul420/node-js-starter) - JavaScript version of this template (Javascript + Express.js)
+- [node-ts-starter](https://github.com/tariqul420/node-ts-starter) - Typescript version of this template (Typescript + Express.js)
+
 ## Contributing
 
 Contributions are welcome! Feel free to open an issue or submit a pull request.
@@ -136,30 +163,6 @@ Contributions are welcome! Feel free to open an issue or submit a pull request.
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-```
-MIT License
-
-Copyright (c) 2025 Tariqul Islam
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
 ## Support
 
-For support, please open an issue in the GitHub repository: [https://github.com/tariqul420/mongoose-quick-start-ts/issues](https://github.com/tariqul420/mongoose-quick-start-ts/issues)
+For support, please open an issue in the GitHub repository: [https://github.com/tariqul420/mongoose-ts-starter/issues](https://github.com/tariqul420/mongoose-ts-starter/issues)
