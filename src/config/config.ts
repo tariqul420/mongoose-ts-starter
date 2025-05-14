@@ -15,7 +15,8 @@ interface Config {
     password: string;
   };
   cookie: {
-    accessTokenSecret: string;
+    tokenSecret: string;
+    tokenName: string;
   };
 }
 
@@ -31,7 +32,8 @@ const config: Config = {
     password: process.env.MONGODB_DATABASE_PASSWORD || '',
   },
   cookie: {
-    accessTokenSecret: process.env.ACCESS_TOKEN_SECRET || '',
+    tokenSecret: process.env.ACCESS_TOKEN_SECRET || '',
+    tokenName: 'token',
   },
 };
 

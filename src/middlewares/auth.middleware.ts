@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import config from '../config/config';
 import User from '../models/userSchema';
 
 interface CustomRequest extends Request {
@@ -20,7 +21,7 @@ export const verifyToken = (
   try {
     const decoded = jwt.verify(
       token,
-      process.env.ACCESS_TOKEN_SECRET || '',
+      config.cookie.tokenSecret || '',
     ) as JwtPayload;
     req.user = decoded;
     next();

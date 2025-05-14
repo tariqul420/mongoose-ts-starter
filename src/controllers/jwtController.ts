@@ -9,14 +9,14 @@ export const createToken = async (
 ) => {
   try {
     const userInfo = req.body;
-    const token = jwt.sign(userInfo, config.cookie.accessTokenSecret, {
+    const token = jwt.sign(userInfo, config.cookie.tokenSecret, {
       expiresIn: '1d',
     });
     res
-      .cookie('token', token, {
+      .cookie(config.cookie.tokenName, token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+        secure: config.nodeEnv === 'production',
+        sameSite: config.nodeEnv === 'production' ? 'none' : 'strict',
       })
       .send({ success: true });
   } catch (error) {
@@ -31,10 +31,10 @@ export const removeToken = async (
 ) => {
   try {
     res
-      .clearCookie('token', {
+      .clearCookie(config.cookie.tokenName, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+        secure: config.nodeEnv === 'production',
+        sameSite: config.nodeEnv === 'production' ? 'none' : 'strict',
         path: '/',
       })
       .send({ success: true });
