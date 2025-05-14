@@ -3,7 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
 import config from './config/config';
-import { errorHandler } from './middlewares/errorHandler';
+import { errorHandler } from './middlewares/error.middleware';
 import jwtRoutes from './routes/jwtRoutes';
 import userRoutes from './routes/userRoutes';
 

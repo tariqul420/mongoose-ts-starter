@@ -7,18 +7,18 @@ export const createToken = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const userInfo = req.body;
-  const token = jwt.sign(userInfo, config.cookie.accessTokenSecret, {
-    expiresIn: '1d',
-  });
-  res
-    .cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-    })
-    .send({ success: true });
   try {
+    const userInfo = req.body;
+    const token = jwt.sign(userInfo, config.cookie.accessTokenSecret, {
+      expiresIn: '1d',
+    });
+    res
+      .cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      })
+      .send({ success: true });
   } catch (error) {
     next(error);
   }
@@ -29,15 +29,15 @@ export const removeToken = async (
   res: Response,
   next: NextFunction,
 ) => {
-  res
-    .clearCookie('token', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-      path: '/',
-    })
-    .send({ success: true });
   try {
+    res
+      .clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+        path: '/',
+      })
+      .send({ success: true });
   } catch (error) {
     next(error);
   }

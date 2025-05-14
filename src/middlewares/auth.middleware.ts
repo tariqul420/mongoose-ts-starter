@@ -17,20 +17,16 @@ export const verifyToken = (
     return;
   }
 
-  // Verify Token
-  jwt.verify(
-    token,
-    process.env.ACCESS_TOKEN_SECRET || '',
-    (error: any, decoded: any) => {
-      if (error) {
-        res.status(401).send({ error: 'Unauthorized access' });
-        return;
-      }
-
-      req.user = decoded as JwtPayload;
-      next();
-    },
-  );
+  try {
+    const decoded = jwt.verify(
+      token,
+      process.env.ACCESS_TOKEN_SECRET || '',
+    ) as JwtPayload;
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(401).send({ error: 'Unauthorized access' });
+  }
 };
 
 export const verifyAdmin = async (
