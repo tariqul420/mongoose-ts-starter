@@ -16,8 +16,8 @@
     "mongoose",
     "express"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "Tariqul Islam",
+  "license": "MIT",
   "dependencies": {
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -43,6 +43,6 @@
     "nodemon": "^3.1.10",
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
-    "typescript": "~5.5.0"
+    "typescript": "^5.5.0"
   }
 }
