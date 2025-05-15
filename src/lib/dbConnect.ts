@@ -1,11 +1,6 @@
 import mongoose from 'mongoose';
 import config from '../config/config';
-
-// Define type for mongoose cache
-type MongooseCache = {
-  conn: typeof mongoose | null;
-  promise: Promise<typeof mongoose> | null;
-};
+import { MongooseCache } from '../types';
 
 // Using a simpler approach with a type declaration for global
 const mongooseGlobal = global as unknown as {

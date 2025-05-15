@@ -1,26 +1,9 @@
 import dotenv from 'dotenv';
+import { IConfig } from '../types';
 
 dotenv.config();
 
-interface Config {
-  port: number;
-  nodeEnv: string;
-
-  cors: {
-    origin: string[];
-    credentials: boolean;
-  };
-  mongodb: {
-    uri: string;
-    password: string;
-  };
-  cookie: {
-    tokenSecret: string;
-    tokenName: string;
-  };
-}
-
-const config: Config = {
+const config: IConfig = {
   port: Number(process.env.PORT) || 3000,
   nodeEnv: process.env.NODE_ENV || 'development',
   cors: {
