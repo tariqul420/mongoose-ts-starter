@@ -11,12 +11,12 @@ const config: IConfig = {
     credentials: true,
   },
   mongodb: {
-    uri: process.env.MONGODB_DATABASE_URL || '',
-    password: process.env.MONGODB_DATABASE_PASSWORD || '',
+    uri: process.env.MONGODB_DATABASE_URL as string,
+    password: process.env.MONGODB_DATABASE_PASSWORD as string,
   },
   cookie: {
-    tokenSecret: process.env.ACCESS_TOKEN_SECRET || '',
-    tokenName: 'token',
+    tokenSecret: process.env.ACCESS_TOKEN_SECRET as string,
+    tokenName: process.env.TOKEN_NAME as string,
   },
 };
 
